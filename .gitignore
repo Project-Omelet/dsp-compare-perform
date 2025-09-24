@@ -3,3 +3,4 @@ node_modules
 *.csv
 outputs
 .DS_Store
+*.parquet
