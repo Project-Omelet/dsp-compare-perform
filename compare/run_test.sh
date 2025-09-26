@@ -4,7 +4,7 @@
 CURRENT_DIR=$(pwd)
 
 # Data & Output path
-DATA_DIR="$CURRENT_DIR/../data"
+DATA_DIR="$CURRENT_DIR/../data/csvs"
 
 for csv_file in "$DATA_DIR"/*.csv; do
   filename=$(basename -- "$csv_file")
