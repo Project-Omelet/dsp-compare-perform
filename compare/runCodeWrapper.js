@@ -1,6 +1,7 @@
 const algorithmModulesOrigin = require("./lib/origin/analysis_script.js");
 const algorithmModules = require("./lib/optimized/analysis_script.js");
 const algorithmModulesNative = require("./lib/native/analysis_script.js");
+const algorithmModulesNonglue = require("./lib/optimized-nonglue/analysis_script.js");
 const fs = require("fs");
 const csv = require("csv-parser");
 
@@ -482,6 +483,7 @@ const debug = async (pathObj) => {
   const originTest = await main(algorithmModulesOrigin, "origin", pathObj);
   const optimizedTest = await main(algorithmModules, "optimized", pathObj);
   const nativeTest = await main(algorithmModulesNative, "native", pathObj);
+  const nonGlueTest = await main(algorithmModulesNonglue, "nonGlue", pathObj);
 
   fs.writeFileSync(
     `${pathObj.outputPath}/originTest.json`,
@@ -497,10 +499,22 @@ const debug = async (pathObj) => {
     JSON.stringify(nativeTest, null, 2)
   );
 
+  fs.writeFileSync(
+    `${pathObj.outputPath}/nonGlueTest.json`,
+    JSON.stringify(nonGlueTest, null, 2)
+  );
+
   const areEqual = JSON.stringify(originTest) === JSON.stringify(optimizedTest);
   fs.writeFileSync(
     `${pathObj.outputPath}/comparison.txt`,
     `originTest equals optimizedTest: ${areEqual}`
+  );
+
+  const areEqual2 =
+    JSON.stringify(nonGlueTest) === JSON.stringify(optimizedTest);
+  fs.writeFileSync(
+    `${pathObj.outputPath}/comparison2.txt`,
+    `optimizedTest equals nonGlueTest: ${areEqual2}`
   );
 };
 
